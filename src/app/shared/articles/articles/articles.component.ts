@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ArticlesService} from '../../services/articles.service';
-import {AuthorsService} from '../../services/authors.service';
 import {Author} from '../../authors/authors.component';
 import {RxBaseComponent} from '../../common/rx-base/rx-base.component';
 import {Subscription} from 'rxjs';
