@@ -2,7 +2,8 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 const sitefinityUrl = 'https://devmagazine-uat.sitefinity.site';
-const serviceUrl = sitefinityUrl + '/api/default/';
+//const serviceUrl = sitefinityUrl + '/api/default/';
+const serviceUrl = sitefinityUrl + '/sf/system/';
 const authenticationUrl = sitefinityUrl + '/Sitefinity/Authenticate/OpenID/connect/token';
 
 @Injectable({

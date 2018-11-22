@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {SitefinityService} from './sitefinity.service';
-import {ReplaySubject} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {Router} from '@angular/router';
 import {SearchResultItem} from '../search/search.component';
 
@@ -9,26 +9,27 @@ import {SearchResultItem} from '../search/search.component';
 })
 export class SearchService {
   @Output() searchTriggered = new EventEmitter<any>();
+  private _searchResults:ReplaySubject<SearchResultItem[]> = new ReplaySubject<SearchResultItem[]>(1);
+  get searchResults(): Observable<SearchResultItem[]> {
+      return this._searchResults.asObservable();
+  }
 
   constructor(private router: Router, private sitefinity: SitefinityService) { }
 
-  triggerSearch(searchWord: string) {
-    this.searchTriggered.next(this.getItemsBySearchWord(searchWord));
+  search(searchWord: string) {
+    this.getItemsBySearchWord(searchWord);
     this.router.navigate(['/search-results']);
   }
 
-  getItemsBySearchWord(searchWord: string): ReplaySubject<any> {
-    const searchReplaySubject = new ReplaySubject<any>(1);
+  getItemsBySearchWord(searchWord: string): void {
     this.sitefinity.instance.then((sf) => {
-      const batch = sf.batch(data => searchReplaySubject.next(data), data => console.log(data));
+      const batch = sf.batch(data => this._searchResults.next(this.mapSearchResults(data)), data => console.log(data));
       batch.get({ entitySet: 'authors', query: this.sitefinity.query.select('Bio', 'JobTitle', 'Name').order('Name asc')
           .where().contains('Bio', searchWord).or().contains('JobTitle', searchWord).or().contains('Name', searchWord).done().done().done()});
       batch.get({ entitySet: 'newsitems', query: this.sitefinity.query.select('Title', 'Content', 'Summary').order('Title asc')
           .where().contains('Title', searchWord).or().contains('Content', searchWord).or().contains('Summary', searchWord).done().done().done()});
       batch.execute();
     });
-
-    return searchReplaySubject;
   }
 
   mapSearchResults(result: any): SearchResultItem[] {

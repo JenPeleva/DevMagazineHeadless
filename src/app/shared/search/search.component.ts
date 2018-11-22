@@ -12,7 +12,7 @@ export class SearchComponent {
   constructor(private searchService: SearchService) {}
 
   onEnter(event: any) {
-      this.searchService.triggerSearch(event.target.value);
+      this.searchService.search(event.target.value);
   }
 }
 
