@@ -23,9 +23,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/css/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/sitefinity-webservices-sdk/dist/sitefinity-webservices-sdk.js"
+            ]
           },
           "configurations": {
             "production": {

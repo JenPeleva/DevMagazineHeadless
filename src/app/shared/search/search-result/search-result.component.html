@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 row--border">
+      <ng-container *ngIf="searchResults && searchResults.length > 0">
+        <div class="text-center">
+          <h1>Search Results</h1>
+        </div>
+        <div class="sf-search-results media-list u-mb4">
+          <div *ngFor="let result of searchResults" class="media sf-media u-mb3">
+            <h3><a [routerLink]="result.detailLink" style="cursor: pointer;">{{result.title}}</a></h3>
+            <p>{{result.content}}</p>
+            <a [routerLink]="result.detailLink" style="cursor: pointer;">Read more</a>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="searchResults && searchResults.length === 0">
+        <div class="text-center">
+            <h1>No search results</h1>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<section class="section">
+  <div *ngIf="author" class="container">
+    <div class="Author Author--header text-center">
+      <img class="img-circle" *ngIf="author.avatar" [src]="author.avatar.thumbnailUrl" [alt]="author.avatar.alternativeText"/>
+
+      <h1>{{author.name}}</h1>
+      <p class="text-muted">{{author.jobTitle}}</p>
+
+      <p [innerHtml]="author.bio"></p>
+    </div>
+  </div>
+</section>

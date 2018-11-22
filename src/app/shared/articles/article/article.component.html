@@ -1,0 +1,35 @@
+<section *ngIf="article" class="section section--border">
+  <div class="container">
+    <div class="row">
+      <div class="text-center">
+        <div class="col-md-8 col-md-offset-2">
+          <h1>{{article.title}}</h1>
+          <p>
+            {{article.articleAuthor.name}}
+          </p>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+          <hr />
+        </div>
+      </div>
+      <div [innerHtml]="article.content" class="col-md-8 col-md-offset-2">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <hr />
+        <div *ngIf="article.articleAuthor" class="media Author Author--big">
+
+          <!--<a class="pull-left" href="@Html.GetAuthorUrl(Model)">-->
+          <!--</a>-->
+          <div class="media-body">
+            <!--<h3 class="media-heading">@Html.RenderAuthorLink(Model)</h3>-->
+            <h5><a routerLink="/authors/{{article.articleAuthor.id}}">More about {{article.articleAuthor.name}}</a></h5>
+            <p class="text-muted">{{article.articleAuthor.jobTitle}}</p>
+            <p [innerHtml]="article.articleAuthor.bio"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

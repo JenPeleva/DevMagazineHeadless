@@ -1,0 +1,23 @@
+<div *ngIf="authors && authors.length>0" class="section">
+  <div class="container">
+    <div class="row text-center">
+      <h2>Authors</h2>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row row--flex">
+          <div *ngFor="let author of authors" class="col-md-2">
+            <div class="text-center">
+              <a routerLink="/authors/{{author.id}}" *ngIf="author.avatar" style="cursor: pointer;">
+                <img class="img-circle" [src]="author.avatar.thumbnailUrl" [alt]="author.avatar.alternativeText"/>
+              </a>
+              <h3><a style="cursor: pointer;" routerLink="/authors/{{author.id}}">{{author.name}}</a></h3>
+              <p>{{author.jobTitle}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

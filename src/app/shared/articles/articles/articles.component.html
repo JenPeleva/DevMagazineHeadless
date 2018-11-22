@@ -1,0 +1,61 @@
+<section *ngIf="articles && articles.length>0" class="section section--border">
+  <div class="container">
+    <div class="row text-center">
+      <h4>Topic</h4>
+      <h2>Tech Articles</h2>
+    </div>
+    <hr />
+
+    <div class="row">
+      <div *ngFor="let article of articles; let i = index">
+        <div *ngIf="i % 3 == 0" class="row">
+          <div class="col-md-4">
+            <ng-container
+              *ngTemplateOutlet="articleTemplate; context: { item: article}">
+            </ng-container>
+          </div>
+          <div class="col-md-4" *ngIf="i + 1 < articles.length">
+            <ng-container
+              *ngTemplateOutlet="articleTemplate; context: { item: articles[i + 1]}">
+            </ng-container>
+          </div>
+          <div class="col-md-4" *ngIf="i + 2 < articles.length">
+            <ng-container
+              *ngTemplateOutlet="articleTemplate; context: { item: articles[i + 2]}">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="shouldShowLoadMore" class="row text-center u-mt4">
+      <a (click)="LoadMore()" style="cursor: pointer;">
+        <span class="glyphicon glyphicon-chevron-down glyph-bordered"></span>
+        <br />
+        Load 10 more articles
+      </a>
+    </div>
+  </div>
+</section>
+
+<ng-template #articleTemplate let-article="item">
+  <h3>
+    <a class="pull-left" routerLink="/articles/{{article.id}}">
+      {{article.title}}
+    </a>
+  </h3>
+  <p [innerHtml]="article.summary">
+  </p>
+  <a routerLink="/articles/{{article.id}}">
+    Read more
+  </a>
+
+  <div *ngIf="article.articleAuthor" class="media Author--small">
+    <div class="media-body">
+      <h6 class="media-heading">
+        <a class="pull-left" routerLink="/authors/{{article.articleAuthor.id}}">
+          {{article.articleAuthor.name}}
+        </a>
+      </h6>
+    </div>
+  </div>
+</ng-template>
