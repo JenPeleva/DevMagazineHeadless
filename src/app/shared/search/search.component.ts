@@ -17,7 +17,7 @@ export class SearchComponent {
 }
 
 export class SearchResultItem {
-  title: string;
-  detailLink: string;
-  content: string;
+  Title: string;
+  DetailLink: string;
+  Content: string;
 }

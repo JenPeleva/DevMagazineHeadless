@@ -28,7 +28,7 @@ export class AuthorComponent extends RxBaseComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
      this.subscription =  this.authorsService.getAuthor(id).subscribe((author) => {
-        this.author = this.authorsService.returnAuthor(author);
+        this.author = author;
       });
     }
   }

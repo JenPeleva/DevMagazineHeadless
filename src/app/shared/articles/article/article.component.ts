@@ -27,8 +27,8 @@ export class ArticleComponent extends RxBaseComponent implements OnInit {
   getArticle() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.subscription = this.articlesService.getArticle(id).subscribe((article) => {
-        this.article = this.articlesService.returnArticle(article);
+      this.subscription = this.articlesService.getArticle(id).subscribe((article: Article) => {
+        this.article = article;
       });
     }
   }

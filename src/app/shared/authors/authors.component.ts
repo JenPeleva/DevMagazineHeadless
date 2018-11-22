@@ -11,16 +11,16 @@ import {RxBaseComponent} from '../common/rx-base/rx-base.component';
 })
 export class AuthorsComponent extends RxBaseComponent implements OnInit {
   subscription: Subscription;
+  authors: Author[] = [];
+
   constructor(private authorsService: AuthorsService) {
     super();
   }
 
-  authors: Author[] = [];
-
   ngOnInit() {
-   this.subscription =  this.authorsService.getAuthors().subscribe((data) => {
-        data.value.forEach((author) => {
-          this.authors.push(this.authorsService.returnAuthor(author));
+   this.subscription =  this.authorsService.getAuthors().subscribe((data:Author[]) => {
+        data.forEach((author) => {
+          this.authors.push(author);
         });
     });
     this.registerSubscription(this.subscription);
@@ -28,10 +28,10 @@ export class AuthorsComponent extends RxBaseComponent implements OnInit {
 }
 
 export class Author {
-  bio: string;
-  id: string;
-  jobTitle: string;
-  name: string;
-  urlName: string;
-  avatar?: RelatedImage;
+  Bio: string;
+  Id: string;
+  JobTitle: string;
+  Name: string;
+  UrlName: string;
+  Avatar?: RelatedImage;
 }

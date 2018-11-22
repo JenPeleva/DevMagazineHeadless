@@ -39,21 +39,21 @@
 
 <ng-template #articleTemplate let-article="item">
   <h3>
-    <a class="pull-left" routerLink="/articles/{{article.id}}">
-      {{article.title}}
+    <a class="pull-left" routerLink="/articles/{{article.Id}}">
+      {{article.Title}}
     </a>
   </h3>
-  <p [innerHtml]="article.summary">
+  <p [innerHtml]="article.Summary">
   </p>
-  <a routerLink="/articles/{{article.id}}">
+  <a routerLink="/articles/{{article.Id}}">
     Read more
   </a>
 
-  <div *ngIf="article.articleAuthor" class="media Author--small">
+  <div *ngIf="article.ArticleAuthor" class="media Author--small">
     <div class="media-body">
       <h6 class="media-heading">
-        <a class="pull-left" routerLink="/authors/{{article.articleAuthor.id}}">
-          {{article.articleAuthor.name}}
+        <a class="pull-left" routerLink="/authors/{{article.ArticleAuthor.Id}}">
+          {{article.ArticleAuthor.Name}}
         </a>
       </h6>
     </div>

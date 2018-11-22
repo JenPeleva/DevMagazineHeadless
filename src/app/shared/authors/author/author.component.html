@@ -1,12 +1,12 @@
 <section class="section">
   <div *ngIf="author" class="container">
     <div class="Author Author--header text-center">
-      <img class="img-circle" *ngIf="author.avatar" [src]="author.avatar.thumbnailUrl" [alt]="author.avatar.alternativeText"/>
+      <img class="img-circle" *ngIf="author.Avatar" [src]="author.Avatar.ThumbnailUrl" [alt]="author.Avatar.AlternativeText"/>
 
-      <h1>{{author.name}}</h1>
-      <p class="text-muted">{{author.jobTitle}}</p>
+      <h1>{{author.Name}}</h1>
+      <p class="text-muted">{{author.JobTitle}}</p>
 
-      <p [innerHtml]="author.bio"></p>
+      <p [innerHtml]="author.Bio"></p>
     </div>
   </div>
 </section>

@@ -9,11 +9,11 @@
         <div class="row row--flex">
           <div *ngFor="let author of authors" class="col-md-2">
             <div class="text-center">
-              <a routerLink="/authors/{{author.id}}" *ngIf="author.avatar" style="cursor: pointer;">
-                <img class="img-circle" [src]="author.avatar.thumbnailUrl" [alt]="author.avatar.alternativeText"/>
+              <a routerLink="/authors/{{author.Id}}" *ngIf="author.Avatar" style="cursor: pointer;">
+                <img class="img-circle" [src]="author.Avatar.ThumbnailUrl" [alt]="author.Avatar.alternativeText"/>
               </a>
-              <h3><a style="cursor: pointer;" routerLink="/authors/{{author.id}}">{{author.name}}</a></h3>
-              <p>{{author.jobTitle}}</p>
+              <h3><a style="cursor: pointer;" routerLink="/authors/{{author.Id}}">{{author.Name}}</a></h3>
+              <p>{{author.JobTitle}}</p>
             </div>
           </div>
         </div>

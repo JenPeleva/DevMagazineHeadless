@@ -12,12 +12,12 @@ import {Subscription} from 'rxjs';
 })
 export class ArticlesComponent extends RxBaseComponent implements OnInit {
   articles: Article[] = [];
-  itemsCount = 10;
   allItemsCount: number;
   subscription: Subscription;
   allSubscription: Subscription;
+
   get shouldShowLoadMore(): boolean {
-    return this.allItemsCount > this.itemsCount;
+    return this.allItemsCount > this.articles.length;
   }
 
   constructor(private articlesService: ArticlesService) {
@@ -32,40 +32,39 @@ export class ArticlesComponent extends RxBaseComponent implements OnInit {
   }
 
   LoadMore() {
-    this.itemsCount += 10;
     this.getArticles();
   }
 
   getArticles() {
-    this.subscription = this.articlesService.getAllArticles(this.itemsCount).subscribe((data) => {
-      data.value.forEach((article) => {
-        this.articles.push(this.articlesService.returnArticle(article));
+    this.subscription = this.articlesService.getAllArticles(10, this.articles.length).subscribe((data: Article[]) => {
+      data.forEach((article) => {
+        this.articles.push(article);
       });
     });
   }
 
   getAllArticlesCount() {
     this.articlesService.getAllArticlesCount().subscribe((data) => {
-      this.allItemsCount =  data;
+      this.allItemsCount = data;
     });
   }
 }
 
 export class Article {
-  id: string;
-  content: string;
-  dateCreated: string;
-  summary: string;
-  title: string;
-  urlName: string;
-  articleAuthor?: Author;
-  image?: any;
+  Id: string;
+  Content: string;
+  DateCreated: string;
+  Summary: string;
+  Title: string;
+  UrlName: string;
+  ArticleAuthor?: Author;
+  Image?: any;
 }
 
 export class RelatedImage {
-  url?: string;
-  alternativeText: string;
-  width: string;
-  height: string;
-  thumbnailUrl;
+  Url?: string;
+  AlternativeText: string;
+  Width: string;
+  Height: string;
+  ThumbnailUrl;
 }
