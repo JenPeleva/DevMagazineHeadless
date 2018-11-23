@@ -22,14 +22,12 @@ export class SearchService {
   }
 
   getItemsBySearchWord(searchWord: string): void {
-    this.sitefinity.instance.then((sf) => {
-      const batch = sf.batch(data => this._searchResults.next(this.mapSearchResults(data)));
-      batch.get({ entitySet: 'authors', query: this.sitefinity.query.select('Bio', 'JobTitle', 'Name', 'Id').order('Name asc')
-          .where().contains('Bio', searchWord).or().contains('JobTitle', searchWord).or().contains('Name', searchWord).done().done().done()});
-      batch.get({ entitySet: 'newsitems', query: this.sitefinity.query.select('Title', 'Content', 'Summary', 'Id').order('Title asc')
-          .where().contains('Title', searchWord).or().contains('Content', searchWord).or().contains('Summary', searchWord).done().done().done()});
-      batch.execute();
-    });
+    const batch = this.sitefinity.instance.batch(data => this._searchResults.next(this.mapSearchResults(data)));
+    batch.get({ entitySet: 'authors', query: this.sitefinity.query.select('Bio', 'JobTitle', 'Name', 'Id').order('Name asc')
+        .where().contains('Bio', searchWord).or().contains('JobTitle', searchWord).or().contains('Name', searchWord).done().done().done()});
+    batch.get({ entitySet: 'newsitems', query: this.sitefinity.query.select('Title', 'Content', 'Summary', 'Id').order('Title asc')
+        .where().contains('Title', searchWord).or().contains('Content', searchWord).or().contains('Summary', searchWord).done().done().done()});
+    batch.execute();
   }
 
   mapSearchResults(result: any): SearchResultItem[] {

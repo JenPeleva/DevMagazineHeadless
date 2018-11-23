@@ -13,7 +13,7 @@ export class ArticlesComponent extends RxBaseComponent implements OnInit {
   articles: Article[] = [];
   allItemsCount: number;
   subscription: Subscription;
-  allSubscription: Subscription;
+  articlesCountSubscription: Subscription;
 
   get shouldShowLoadMore(): boolean {
     return this.allItemsCount > this.articles.length;
@@ -27,7 +27,7 @@ export class ArticlesComponent extends RxBaseComponent implements OnInit {
     this.getArticles();
     this.getAllArticlesCount();
     this.registerSubscription(this.subscription);
-    this.registerSubscription(this.allSubscription);
+    this.registerSubscription(this.articlesCountSubscription);
   }
 
   LoadMore() {
@@ -43,7 +43,7 @@ export class ArticlesComponent extends RxBaseComponent implements OnInit {
   }
 
   getAllArticlesCount() {
-    this.articlesService.getAllArticlesCount().subscribe((data) => {
+    this.articlesCountSubscription = this.articlesService.getAllArticlesCount().subscribe((data) => {
       this.allItemsCount = data;
     });
   }

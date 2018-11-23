@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthorsService} from '../services/authors.service';
 import {RelatedImage} from '../articles/articles/articles.component';
-import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {RxBaseComponent} from '../common/rx-base/rx-base.component';
 
 @Component({
@@ -10,20 +10,14 @@ import {RxBaseComponent} from '../common/rx-base/rx-base.component';
   styleUrls: ['./authors.component.css']
 })
 export class AuthorsComponent extends RxBaseComponent implements OnInit {
-  subscription: Subscription;
-  authors: Author[] = [];
+  authors: Observable<Author[]>;
 
   constructor(private authorsService: AuthorsService) {
     super();
   }
 
   ngOnInit() {
-   this.subscription =  this.authorsService.getAuthors().subscribe((data:Author[]) => {
-        data.forEach((author) => {
-          this.authors.push(author);
-        });
-    });
-    this.registerSubscription(this.subscription);
+    this.authors =  this.authorsService.getAuthors();
   }
 }
 

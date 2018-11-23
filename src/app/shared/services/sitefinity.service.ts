@@ -2,54 +2,69 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 const sitefinityUrl = 'https://devmagazine-uat.sitefinity.site';
-//const serviceUrl = sitefinityUrl + '/api/default/';
-const serviceUrl = sitefinityUrl + '/sf/system/';
+const serviceUrl = sitefinityUrl + '/api/default/';
 const authenticationUrl = sitefinityUrl + '/Sitefinity/Authenticate/OpenID/connect/token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SitefinityService {
-  private sitefinity: Promise<any>;
+  private sitefinity: any;
   private queryInstance: any;
 
-  get instance(): Promise<any> {
+  get instance(): any {
     return this.sitefinity;
   }
 
-  get query() {
+  get query(): any {
     return this.queryInstance;
   }
 
-  constructor(@Inject('Sitefinity') private sf, private http: HttpClient) {
-    this.createInstance();
-  }
+  constructor(@Inject('Sitefinity') private sf, private http: HttpClient) {}
 
-  createInstance() {
-    if (!this.sitefinity) {
-      this.sitefinity = new Promise((resolve, reject) => {
-        this.getToken().then((data) => {
-            const sfInstance = new this.sf({serviceUrl});
-            sfInstance.options = {
+  createInstance(username: string, password: string): Promise<boolean> {
+
+      // this.sitefinity = new Promise((resolve, reject) => {
+      //   this.getToken().then((data) => {
+      //       const sfInstance = new this.sf({serviceUrl});
+      //       sfInstance.options = {
+      //         serviceUrl: serviceUrl
+      //       };
+      //       sfInstance.authentication.setToken(data);
+      //       this.queryInstance = new this.sf.Query();
+      //       resolve(sfInstance);
+      //     },
+      //     (error) => {
+      //       reject(console.log(error));
+      //     } );
+      // });
+      return new Promise<boolean>((resolve, reject) => {
+        if (!this.sitefinity) {
+        this.getToken(username, password).then((data) => {
+            this.sitefinity = new this.sf({serviceUrl});
+            this.sitefinity.options = {
               serviceUrl: serviceUrl
             };
-            sfInstance.authentication.setToken(data);
+            this.sitefinity.authentication.setToken(data);
             this.queryInstance = new this.sf.Query();
-            resolve(sfInstance);
+            resolve(true);
           },
           (error) => {
-            reject(console.log(error));
+            console.log(error);
+            reject(false);
           } );
+        } else {
+          return true;
+        }
       });
-    }
   }
 
-  getToken() {
+  getToken(username: string, password: string) {
     const promise = new Promise((resolve, reject) => {
       const tokenEndPoint = authenticationUrl;
       const dataToPost = {
-        username: 'Username',
-        password: 'users_password',
+        username: username,
+        password: password,
         grant_type: 'password',
         scope: 'openid',
         client_id: 'iris',

@@ -15,51 +15,26 @@ export class AuthorsService {
 
   getAuthors(): ReplaySubject<Author[]> {
     const authorsReplaySubject = new ReplaySubject<Author[]>(1);
-    this.sitefinity.instance.then((result) => {
-        result.data(authorsDataOptions).get({
-          query: this.sitefinity.query.select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
-            .expand('Avatar').order('Name desc'),
-          successCb: data => authorsReplaySubject.next(data.value as Author[])
-        });
-      },
-      (error) => {
-        authorsReplaySubject.next(error);
-      });
+    this.sitefinity.instance.data(authorsDataOptions).get({
+      query: this.sitefinity.query.select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
+        .expand('Avatar').order('Name desc'),
+      successCb: data => authorsReplaySubject.next(data.value as Author[]),
+      failureCb: data => console.log(data)
+    });
+
     return authorsReplaySubject;
   }
 
   getAuthor(id: string): ReplaySubject<Author> {
     const authorReplaySubject = new ReplaySubject<Author>(1);
-    this.sitefinity.instance.then((result) => {
-        result.data(authorsDataOptions).getSingle({
-          query: this.sitefinity.query.select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
-            .expand('Avatar').order('Name desc'),
-          key: id,
-          successCb: (data: Author) => {authorReplaySubject.next(data)}
-        });
-      },
-      (error) => {
-        authorReplaySubject.next(error);
-      });
+    this.sitefinity.instance.data(authorsDataOptions).getSingle({
+      query: this.sitefinity.query.select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
+        .expand('Avatar').order('Name desc'),
+      key: id,
+      successCb: (data: Author) => {authorReplaySubject.next(data)},
+      failureCb: data => console.log(data)
+    });
     return authorReplaySubject;
   }
 
-  // returnAuthor(author: any): Author {
-  //   const authorObj = {
-  //     bio: author.Bio,
-  //     id: author.Id,
-  //     jobTitle: author.JobTitle,
-  //     name: author.Name,
-  //     urlName: author.UrlName,
-  //     avatar: author.Avatar ?  {
-  //       url: author.Avatar ? author.Avatar.Url : null,
-  //       thumbnailUrl: author.Avatar ? author.Avatar.ThumbnailUrl : null,
-  //       width: author.Avatar ? author.Avatar.Width : null,
-  //       height: author.Avatar ? author.Avatar.Height : null,
-  //       alternativeText: author.Avatar ? author.Avatar.AlternativeText : null
-  //     } : null
-  //   };
-
-  //   return authorObj;
-  // }
 }

@@ -18,51 +18,39 @@ export class ArticlesService {
   getAllArticles(take?: number, skip?: number): Observable<Article[]> {
     let query;
     const articlesReplaySubject = new ReplaySubject<Article[]>(1);
-    this.sitefinity.instance.then((result) => {
-      if (take !== null && skip !== null) {
-        query = this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
-          .expand('ArticleAuthor', 'Image').order('Title desc').skip(skip).take(take);
-      } else {
-        query = this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
-          .expand('ArticleAuthor', 'Image').order('Title desc');
-      }
-      result.data(articlesDataOptions).get({
-        query: query,
-        successCb: data => articlesReplaySubject.next(data.value as Article[])
-      });
-    },
-  (error) => {
-    articlesReplaySubject.next(error);
+    if (take !== null && skip !== null) {
+      query = this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
+        .expand('ArticleAuthor', 'Image').order('Title desc').skip(skip).take(take);
+    } else {
+      query = this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
+        .expand('ArticleAuthor', 'Image').order('Title desc');
+    }
+      this.sitefinity.instance.data(articlesDataOptions).get({
+      query: query,
+      successCb: data => articlesReplaySubject.next(data.value as Article[]),
+      failureCb: data => console.log(data)
     });
     return articlesReplaySubject.asObservable();
   }
 
   getArticle(id: string): Observable<Article> {
     const articleReplaySubject = new ReplaySubject<any>(1);
-    this.sitefinity.instance.then((result) => {
-        result.data(articlesDataOptions).getSingle({
+      this.sitefinity.instance.data(articlesDataOptions).getSingle({
           key: id,
           query: this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
             .expand('ArticleAuthor', 'Image').order('Title desc'),
-          successCb: (data: Article) => {articleReplaySubject.next(data)}
+          successCb: (data: Article) => {articleReplaySubject.next(data)},
+          failureCb: data => console.log(data)
         });
-      },
-      (error) => {
-        articleReplaySubject.next(error);
-      });
     return articleReplaySubject.asObservable();
   }
 
   getAllArticlesCount(): Observable<number> {
     const articleReplaySubject = new ReplaySubject<any>(1);
-    this.sitefinity.instance.then((result) => {
-        result.data(articlesDataOptions).get({
-          query: this.sitefinity.query.count(false),
-          successCb: (data: number) => articleReplaySubject.next(data)
-        });
-      },
-      (error) => {
-        articleReplaySubject.next(error);
+      this.sitefinity.instance.data(articlesDataOptions).get({
+        query: this.sitefinity.query.count(false),
+        successCb: (data: number) => articleReplaySubject.next(data),
+        failureCb: data => console.log(data)
       });
     return articleReplaySubject.asObservable();
   }

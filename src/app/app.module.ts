@@ -12,6 +12,9 @@ import {AppRoutingModule} from './app-routing/app-routing.module';
 import { AuthorComponent } from './shared/authors/author/author.component';
 import { SearchComponent } from './shared/search/search.component';
 import { SearchResultComponent } from './shared/search/search-result/search-result.component';
+import { LoginComponent } from './shared/login/login/login.component';
+import {FormsModule} from '@angular/forms';
+import {AuthGuard} from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -22,15 +25,18 @@ import { SearchResultComponent } from './shared/search/search-result/search-resu
     NotFoundComponent,
     AuthorComponent,
     SearchComponent,
-    SearchResultComponent
+    SearchResultComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   providers: [
+    AuthGuard,
     {provide: 'Sitefinity', useValue: window['Sitefinity']},
   ],
   bootstrap: [AppComponent]
