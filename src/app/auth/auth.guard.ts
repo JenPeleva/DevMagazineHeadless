@@ -4,15 +4,24 @@ import {SitefinityService} from '../shared/services/sitefinity.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private sitefinityService: SitefinityService) {
+
+  constructor(private router: Router, private sitefinity: SitefinityService) {
   }
 
-  canActivate(): boolean {
-    if (this.sitefinityService.instance) {
-      return true;
+  canActivate(): boolean | Promise<boolean> {
+    if (this.sitefinity.hasAuthentication) {
+      if (this.sitefinity.instance) {
+        return true;
+      } else {
+        this.router.navigate(['/login']);
+        return false;
+      }
     } else {
-      this.router.navigate(['/login']);
-      return false;
+      if (!this.sitefinity.instance) {
+        return this.sitefinity.createInstance();
+      } else {
+        return true;
+      }
     }
   }
 }
