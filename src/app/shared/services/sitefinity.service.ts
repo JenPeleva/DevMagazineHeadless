@@ -11,6 +11,8 @@ const authenticationUrl = sitefinityUrl + '/Sitefinity/Authenticate/OpenID/conne
 export class SitefinityService {
   private sitefinity: any;
   private queryInstance: any;
+  //defines whether everyone or just authenticated users can access the webservices
+  private _hasAuthentication: boolean = false;
 
   get instance(): any {
     return this.sitefinity;
@@ -20,46 +22,46 @@ export class SitefinityService {
     return this.queryInstance;
   }
 
+  get hasAuthentication(): boolean {
+    return this._hasAuthentication;
+  }
+
   constructor(@Inject('Sitefinity') private sf, private http: HttpClient) {}
 
-  createInstance(username: string, password: string): Promise<boolean> {
-
-      // this.sitefinity = new Promise((resolve, reject) => {
-      //   this.getToken().then((data) => {
-      //       const sfInstance = new this.sf({serviceUrl});
-      //       sfInstance.options = {
-      //         serviceUrl: serviceUrl
-      //       };
-      //       sfInstance.authentication.setToken(data);
-      //       this.queryInstance = new this.sf.Query();
-      //       resolve(sfInstance);
-      //     },
-      //     (error) => {
-      //       reject(console.log(error));
-      //     } );
-      // });
+  createInstance(username?: string, password?: string): Promise<boolean> {
       return new Promise<boolean>((resolve, reject) => {
         if (!this.sitefinity) {
-        this.getToken(username, password).then((data) => {
-            this.sitefinity = new this.sf({serviceUrl});
-            this.sitefinity.options = {
-              serviceUrl: serviceUrl
-            };
-            this.sitefinity.authentication.setToken(data);
-            this.queryInstance = new this.sf.Query();
+          if (this._hasAuthentication) {
+            this.getToken(username, password).then((token) => {
+                this.initializeInstance(token);
+                resolve(true);
+              },
+              (error) => {
+                console.log(error);
+                reject(false);
+              });
+          } else {
+            this.initializeInstance();
             resolve(true);
-          },
-          (error) => {
-            console.log(error);
-            reject(false);
-          } );
+          }
         } else {
-          return true;
+          resolve(true);
         }
       });
   }
 
-  getToken(username: string, password: string) {
+  private initializeInstance(token?: string){
+    this.sitefinity = new this.sf({serviceUrl});
+    this.sitefinity.options = {
+      serviceUrl: serviceUrl
+    };
+    if (token) {
+      this.sitefinity.authentication.setToken(token);
+    }
+    this.queryInstance = new this.sf.Query();
+  }
+
+  private getToken(username: string, password: string): Promise<any> {
     const promise = new Promise((resolve, reject) => {
       const tokenEndPoint = authenticationUrl;
       const dataToPost = {
@@ -88,7 +90,7 @@ export class SitefinityService {
               resolve(data.token_type + ' ' + data.access_token);
             },
             (error: HttpErrorResponse) => {
-              console.log(error.message);
+              reject(console.log(error.message));
             }
           );
     });
