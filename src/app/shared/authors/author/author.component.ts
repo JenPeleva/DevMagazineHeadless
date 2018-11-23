@@ -12,7 +12,7 @@ import {Subscription} from 'rxjs';
 })
 export class AuthorComponent extends RxBaseComponent implements OnInit {
   author: Author;
-  subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private route: ActivatedRoute, private authorsService: AuthorsService) {
     super();

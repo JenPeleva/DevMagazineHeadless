@@ -10,9 +10,9 @@ import {Subscription} from 'rxjs';
 })
 export class ArticlesComponent extends RxBaseComponent implements OnInit {
   articles: Article[] = [];
-  allItemsCount: number;
-  subscription: Subscription;
-  articlesCountSubscription: Subscription;
+  private allItemsCount: number;
+  private subscription: Subscription;
+  private articlesCountSubscription: Subscription;
 
   get shouldShowLoadMore(): boolean {
     return this.allItemsCount > this.articles.length;

@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
   showErrorMessage: boolean;
 
-  constructor(private sitefinityService: SitefinityService, private router: Router) { }
+  constructor(private sitefinity: SitefinityService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
       const password = form.value.password;
 
       if(username && password) {
-        this.sitefinityService.createInstance(username, password).then(
+        this.sitefinity.createInstance(username, password).then(
           (result) => {
             if (result === true) {
               this.router.navigate(['/']);
