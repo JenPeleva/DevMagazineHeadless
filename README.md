@@ -1,6 +1,6 @@
 # DevMagApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.5. It uses the [Sitefinity WebServices SDK](https://www.npmjs.com/package/sitefinity-webservices-sdk) and data from https://devmagazine-uat.sitefinity.site/
 
 ## Development server
 
