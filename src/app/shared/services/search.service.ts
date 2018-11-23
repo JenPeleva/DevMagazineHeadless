@@ -23,10 +23,28 @@ export class SearchService {
 
   getItemsBySearchWord(searchWord: string): void {
     const batch = this.sitefinity.instance.batch(data => this._searchResults.next(this.mapSearchResults(data)));
-    batch.get({ entitySet: 'authors', query: this.sitefinity.query.select('Bio', 'JobTitle', 'Name', 'Id').order('Name asc')
-        .where().contains('Bio', searchWord).or().contains('JobTitle', searchWord).or().contains('Name', searchWord).done().done().done()});
-    batch.get({ entitySet: 'newsitems', query: this.sitefinity.query.select('Title', 'Content', 'Summary', 'Id').order('Title asc')
-        .where().contains('Title', searchWord).or().contains('Content', searchWord).or().contains('Summary', searchWord).done().done().done()});
+    batch.get({ entitySet: 'authors', query: this.sitefinity
+        .query
+        .select('Bio', 'JobTitle', 'Name', 'Id')
+        .order('Name asc')
+        .where()
+        .contains('Bio', searchWord)
+        .or()
+        .contains('JobTitle', searchWord)
+        .or()
+        .contains('Name', searchWord)
+        .done().done().done()});
+    batch.get({ entitySet: 'newsitems', query: this.sitefinity
+        .query
+        .select('Title', 'Content', 'Summary', 'Id')
+        .order('Title asc')
+        .where()
+        .contains('Title', searchWord)
+        .or()
+        .contains('Content', searchWord)
+        .or()
+        .contains('Summary', searchWord)
+        .done().done().done()});
     batch.execute();
   }
 
@@ -46,12 +64,12 @@ export class SearchService {
           switch (contentType) {
             case 'newsitems':
               valuesArray.forEach(contentItm => {
-                searchResults.push({ Title: contentItm.Title, DetailLink: '/articles/' + contentItm.Id, Content: contentItm.Summary});
+                searchResults.push({ Title: contentItm.Title, DetailLink: '/articles/' + contentItm.Id, Content: contentItm.Summary });
               });
               break;
             case 'authors':
               valuesArray.forEach(contentItm => {
-                searchResults.push({Title: contentItm.Name, DetailLink: '/authors/' + contentItm.Id, Content: contentItm.JobTitle});
+                searchResults.push({ Title: contentItm.Name, DetailLink: '/authors/' + contentItm.Id, Content: contentItm.JobTitle });
               });
               break;
             default:

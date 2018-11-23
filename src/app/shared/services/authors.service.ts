@@ -16,8 +16,11 @@ export class AuthorsService {
   getAuthors(): ReplaySubject<Author[]> {
     const authorsReplaySubject = new ReplaySubject<Author[]>(1);
     this.sitefinity.instance.data(authorsDataOptions).get({
-      query: this.sitefinity.query.select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
-        .expand('Avatar').order('Name desc'),
+      query: this.sitefinity
+        .query
+        .select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
+        .expand('Avatar')
+        .order('Name desc'),
       successCb: data => authorsReplaySubject.next(data.value as Author[]),
       failureCb: data => console.log(data)
     });
@@ -28,8 +31,11 @@ export class AuthorsService {
   getAuthor(id: string): ReplaySubject<Author> {
     const authorReplaySubject = new ReplaySubject<Author>(1);
     this.sitefinity.instance.data(authorsDataOptions).getSingle({
-      query: this.sitefinity.query.select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
-        .expand('Avatar').order('Name desc'),
+      query: this.sitefinity
+        .query
+        .select('Bio', 'Id', 'JobTitle', 'Name', 'UrlName')
+        .expand('Avatar')
+        .order('Name desc'),
       key: id,
       successCb: (data: Author) => {authorReplaySubject.next(data)},
       failureCb: data => console.log(data)

@@ -19,11 +19,18 @@ export class ArticlesService {
     let query;
     const articlesReplaySubject = new ReplaySubject<Article[]>(1);
     if (take !== null && skip !== null) {
-      query = this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
-        .expand('ArticleAuthor', 'Image').order('Title desc').skip(skip).take(take);
+      query = this.sitefinity
+        .query
+        .select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
+        .expand('ArticleAuthor', 'Image')
+        .order('Title desc')
+        .skip(skip).take(take);
     } else {
-      query = this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
-        .expand('ArticleAuthor', 'Image').order('Title desc');
+      query = this.sitefinity
+        .query
+        .select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
+        .expand('ArticleAuthor', 'Image')
+        .order('Title desc');
     }
       this.sitefinity.instance.data(articlesDataOptions).get({
       query: query,
@@ -37,8 +44,11 @@ export class ArticlesService {
     const articleReplaySubject = new ReplaySubject<any>(1);
       this.sitefinity.instance.data(articlesDataOptions).getSingle({
           key: id,
-          query: this.sitefinity.query.select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
-            .expand('ArticleAuthor', 'Image').order('Title desc'),
+          query: this.sitefinity
+            .query
+            .select('Title', 'Id', 'Content', 'DateCreated', 'Summary', 'UrlName')
+            .expand('ArticleAuthor', 'Image')
+            .order('Title desc'),
           successCb: (data: Article) => {articleReplaySubject.next(data)},
           failureCb: data => console.log(data)
         });
@@ -48,7 +58,9 @@ export class ArticlesService {
   getAllArticlesCount(): Observable<number> {
     const articleReplaySubject = new ReplaySubject<any>(1);
       this.sitefinity.instance.data(articlesDataOptions).get({
-        query: this.sitefinity.query.count(false),
+        query: this.sitefinity
+          .query
+          .count(false),
         successCb: (data: number) => articleReplaySubject.next(data),
         failureCb: data => console.log(data)
       });

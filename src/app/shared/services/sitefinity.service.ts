@@ -61,6 +61,7 @@ export class SitefinityService {
     this.queryInstance = new this.sf.Query();
   }
 
+  //Gets authentication token
   private getToken(username: string, password: string): Promise<any> {
     const promise = new Promise((resolve, reject) => {
       const tokenEndPoint = authenticationUrl;
