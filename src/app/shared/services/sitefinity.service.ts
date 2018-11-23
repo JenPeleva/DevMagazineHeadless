@@ -12,7 +12,7 @@ export class SitefinityService {
   private sitefinity: any;
   private queryInstance: any;
   //defines whether everyone or just authenticated users can access the webservices
-  private _hasAuthentication: boolean = false;
+  private _hasAuthentication: boolean = true;
 
   get instance(): any {
     return this.sitefinity;
