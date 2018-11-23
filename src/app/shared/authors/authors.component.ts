@@ -6,8 +6,7 @@ import {RxBaseComponent} from '../common/rx-base/rx-base.component';
 
 @Component({
   selector: 'app-authors',
-  templateUrl: './authors.component.html',
-  styleUrls: ['./authors.component.css']
+  templateUrl: './authors.component.html'
 })
 export class AuthorsComponent extends RxBaseComponent implements OnInit {
   authors: Observable<Author[]>;

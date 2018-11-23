@@ -6,8 +6,7 @@ import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-articles',
-  templateUrl: './articles.component.html',
-  styleUrls: ['./articles.component.css']
+  templateUrl: './articles.component.html'
 })
 export class ArticlesComponent extends RxBaseComponent implements OnInit {
   articles: Article[] = [];
